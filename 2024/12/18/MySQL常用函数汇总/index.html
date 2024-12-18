@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="LionLpeoridae">
+
+
+
+
+
+<title>LionLeporidae</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">LionLeporidae&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">LionLeporidae&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title"></h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">LionLpeoridae</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">December 18, 2024&nbsp;&nbsp;15:14:17</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="MySQL-常用函数汇总"><a href="#MySQL-常用函数汇总" class="headerlink" title="MySQL 常用函数汇总"></a>MySQL 常用函数汇总</h1><h1 id="字符串函数"><a href="#字符串函数" class="headerlink" title="字符串函数"></a>字符串函数</h1><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CONCAT(s1,s2,……)</td>
+<td>字符串连接</td>
+</tr>
+<tr>
+<td>INSERT(str,x,y,instr)</td>
+<td>将指定开始标记到结束的字符串替换为指定字符串</td>
+</tr>
+<tr>
+<td>LOWER(str)</td>
+<td>将字符串所有字符转为小写</td>
+</tr>
+<tr>
+<td>UPPER(str)</td>
+<td>将字符串所有字符串转为大写</td>
+</tr>
+<tr>
+<td>LEFT(str,x)</td>
+<td>返回字符串 str 最左边的 x 个字符</td>
+</tr>
+<tr>
+<td>RIGHT(str,x)</td>
+<td>返回字符串 str 最右边的 x 个字符</td>
+</tr>
+<tr>
+<td>LPAD(str,n,pad)</td>
+<td>在 str 最左边填充 n 个 pad</td>
+</tr>
+<tr>
+<td>RPAD(str,n,pad)</td>
+<td>在 str 最右边填充 n 个 pad</td>
+</tr>
+<tr>
+<td>LTRIM(str)</td>
+<td>去掉字符串 str 左侧的空格</td>
+</tr>
+<tr>
+<td>RTRIM(str)</td>
+<td>去掉字符串 str 右侧的空格</td>
+</tr>
+<tr>
+<td>REPEAT(str,x)</td>
+<td>返回 str 重复 x 次的结果</td>
+</tr>
+<tr>
+<td>STRCMP(s1,s2)</td>
+<td>比较字符串 s1 和 s2</td>
+</tr>
+<tr>
+<td>REPLACE(str,a,b)</td>
+<td>用字符串 b 替换字符串 str 中所有出现的字符串 a</td>
+</tr>
+<tr>
+<td>TRIM(str)</td>
+<td>去掉字符串行尾和行头的空格</td>
+</tr>
+<tr>
+<td>SUBSTRING(str,x,y)</td>
+<td>返回从字符串 str x 位置起 y 个字符长度的字串</td>
+</tr>
+</tbody></table>
+<h1 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h1><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ABS(x)</td>
+<td>返回 x 的绝对值</td>
+</tr>
+<tr>
+<td>CEIL(x)</td>
+<td>返回大于 x 的最小整数值</td>
+</tr>
+<tr>
+<td>FLOOR(x)</td>
+<td>返回小于 x 的最大整数值</td>
+</tr>
+<tr>
+<td>MOD(x,y)</td>
+<td>返回 x&#x2F;y 的模</td>
+</tr>
+<tr>
+<td>RAND()</td>
+<td>返回 0～1 内的随机值</td>
+</tr>
+<tr>
+<td>ROUND(x,y)</td>
+<td>返回参数 x 的四舍五入的有 y 位小数的值</td>
+</tr>
+<tr>
+<td>TRUNCATE(x,y)</td>
+<td>返回数字 x 截断位 y 位小数的结果</td>
+</tr>
+</tbody></table>
+<h1 id="日期和时间函数"><a href="#日期和时间函数" class="headerlink" title="日期和时间函数"></a>日期和时间函数</h1><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CURDATE()</td>
+<td>返回当前日期</td>
+</tr>
+<tr>
+<td>CURTIME()</td>
+<td>返回当前时间</td>
+</tr>
+<tr>
+<td>NOW()</td>
+<td>返回当前的日期和时间</td>
+</tr>
+<tr>
+<td>UNIX_TIMESTAMP(date)</td>
+<td>返回日期 date 的 UNIX 时间戳</td>
+</tr>
+<tr>
+<td>FROM_UNIXTIME</td>
+<td>返回 UNIX 时间戳的日期值</td>
+</tr>
+<tr>
+<td>WEEK(date)</td>
+<td>返回日期 date 为一年中的第几周</td>
+</tr>
+<tr>
+<td>YEAR(date)</td>
+<td>返回日期 date 的年份</td>
+</tr>
+<tr>
+<td>HOUR(time)</td>
+<td>返回 time 的小时值</td>
+</tr>
+<tr>
+<td>MINUTE(time)</td>
+<td>返回 time 的分钟值</td>
+</tr>
+<tr>
+<td>MONTHNAME(date)</td>
+<td>返回 date 的月份名</td>
+</tr>
+<tr>
+<td>DATE_FORMAT(date,fmt)</td>
+<td>返回按字符串 fmt 格式日期 date 值</td>
+</tr>
+<tr>
+<td>DATE_ADD(date,interval expr type)</td>
+<td>返回一个日期或时间值加上一个时间间隔的时间值</td>
+</tr>
+<tr>
+<td>DATEDIFF(expr,expr2)</td>
+<td>返回起始时间 expr 和结束时间 expr2 之间的天数</td>
+</tr>
+</tbody></table>
+<h1 id="流程函数"><a href="#流程函数" class="headerlink" title="流程函数"></a>流程函数</h1><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>IF(value,t f)</td>
+<td>如果 value 是真，返回 t；否则返回 f</td>
+</tr>
+<tr>
+<td>IFNULL(value1,value2)</td>
+<td>如果 value1 不为空，返回 value1，否则返回 value2</td>
+</tr>
+<tr>
+<td>CASE WHEN [value1] THEN[result1]…ELSE[default]END</td>
+<td>如果 value1 是真，返回 result1，否则返回 result</td>
+</tr>
+<tr>
+<td>CASE[expr] WHEN [value1]THEN[result1]…ELSE[default]END</td>
+<td>如果 expr 等于 value1，返回 result1，否则返回 default</td>
+</tr>
+</tbody></table>
+<h1 id="其他常用函数"><a href="#其他常用函数" class="headerlink" title="其他常用函数"></a>其他常用函数</h1><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DATEBASE()</td>
+<td>返回当前数据库名</td>
+</tr>
+<tr>
+<td>VERSION()</td>
+<td>返回当前数据库版本</td>
+</tr>
+<tr>
+<td>USER()</td>
+<td>返回当前登录用户名</td>
+</tr>
+<tr>
+<td>INET_ATON(ip)</td>
+<td>返回 ip 地址的数字表示</td>
+</tr>
+<tr>
+<td>INET_NTOA(num)</td>
+<td>返回数字代表的 ip 地址</td>
+</tr>
+<tr>
+<td>PASSWORD(str)</td>
+<td>返回字符串 str 的加密版本</td>
+</tr>
+<tr>
+<td>MD5()</td>
+<td>返回字符串 str 的 md5 值</td>
+</tr>
+</tbody></table>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>LionLpeoridae</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://example.com/2024/12/18/MySQL%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0%E6%B1%87%E6%80%BB/">http://example.com/2024/12/18/MySQL%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0%E6%B1%87%E6%80%BB/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/12/15/MySQL%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">MySQL学习笔记</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© LionLpeoridae | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
