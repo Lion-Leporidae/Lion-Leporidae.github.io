@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="LionLpeoridae">
+
+
+
+
+
+<title>3.4 存款买房(project) | LionLeporidae</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">LionLeporidae&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">LionLeporidae&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">3.4 存款买房(project)</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">LionLpeoridae</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">December 21, 2024&nbsp;&nbsp;0:46:58</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%A4%B4%E6%AD%8C%E5%AE%9E%E8%AE%AD/">头歌实训</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="第1关：存款买房-A"><a href="#第1关：存款买房-A" class="headerlink" title="第1关：存款买房 - A"></a>第1关：存款买房 - A</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line">total_cost = <span class="built_in">float</span>(<span class="built_in">input</span>())           <span class="comment"># &#x27;请输入总房价：&#x27;total_cost为当前房价</span></span><br><span class="line">annual_salary = <span class="built_in">float</span>(<span class="built_in">input</span>())        <span class="comment"># &#x27;请输入年薪：&#x27;</span></span><br><span class="line">portion_saved = <span class="built_in">float</span>(<span class="built_in">input</span>()) / <span class="number">100</span>  <span class="comment"># &#x27;请输入月存款比例：&#x27;月存款比例，输入30转为30%</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据首付款比例计算首付款金额和每个月需要存款数额</span></span><br><span class="line">down_payment = total_cost * <span class="number">0.3</span></span><br><span class="line">monthly_deposit = (annual_salary / <span class="number">12</span>) * portion_saved</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;首付 <span class="subst">&#123;down_payment:<span class="number">.2</span>f&#125;</span> 元&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;月存款 <span class="subst">&#123;monthly_deposit:<span class="number">.2</span>f&#125;</span> 元&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算多少个月才能存够首付款，结果为整数，不足1月按1个月计算，即向上取整</span></span><br><span class="line">number_of_months = math.ceil(down_payment / monthly_deposit)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;需要<span class="subst">&#123;number_of_months&#125;</span>个月可以存够首付&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="第2关：存款买房-B"><a href="#第2关：存款买房-B" class="headerlink" title="第2关：存款买房 - B"></a>第2关：存款买房 - B</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">total_cost = <span class="built_in">float</span>(<span class="built_in">input</span>())  <span class="comment"># total_cost为当前房价</span></span><br><span class="line">annual_salary = <span class="built_in">float</span>(<span class="built_in">input</span>())  <span class="comment"># 年薪</span></span><br><span class="line">portion_saved = <span class="built_in">float</span>(<span class="built_in">input</span>()) / <span class="number">100</span>  <span class="comment"># 月存款比例，输入30转为30%</span></span><br><span class="line">semi_annual_raise = <span class="built_in">float</span>(<span class="built_in">input</span>()) / <span class="number">100</span>  <span class="comment"># 输入每半年加薪比例，输入7转化为7%</span></span><br><span class="line"></span><br><span class="line">portion_down_payment = <span class="number">0.3</span>  <span class="comment"># 首付比例，浮点数</span></span><br><span class="line">down_payment = total_cost * portion_down_payment  <span class="comment"># 计算首付款</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;首付 <span class="subst">&#123;down_payment:<span class="number">.2</span>f&#125;</span> 元&quot;</span>)</span><br><span class="line"></span><br><span class="line">current_savings = <span class="number">0</span>  <span class="comment"># 存款金额，从0开始</span></span><br><span class="line">number_of_months = <span class="number">0</span></span><br><span class="line">monthly_salary = annual_salary / <span class="number">12</span>  <span class="comment"># 月工资</span></span><br><span class="line">monthly_deposit = monthly_salary * portion_saved  <span class="comment"># 月存款</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> current_savings &lt; down_payment:</span><br><span class="line">    current_savings += monthly_deposit</span><br><span class="line">    number_of_months += <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> number_of_months % <span class="number">6</span> == <span class="number">0</span>:</span><br><span class="line">        monthly_salary *= <span class="number">1</span> + semi_annual_raise</span><br><span class="line">        monthly_deposit = monthly_salary * portion_saved</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> number_of_months % <span class="number">12</span> == <span class="number">0</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;第&#123;&#125;个月月末有&#123;:,.0f&#125;元存款&quot;</span>.<span class="built_in">format</span>(number_of_months, current_savings))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;需要<span class="subst">&#123;number_of_months&#125;</span>个月可以存够首付&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="第3关：存款买房-C"><a href="#第3关：存款买房-C" class="headerlink" title="第3关：存款买房 - C"></a>第3关：存款买房 - C</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">total_cost = <span class="built_in">float</span>(<span class="built_in">input</span>())  <span class="comment"># total_cost为当前房价</span></span><br><span class="line">annual_salary = <span class="built_in">float</span>(<span class="built_in">input</span>())  <span class="comment"># 年薪</span></span><br><span class="line">portion_saved = <span class="built_in">float</span>(<span class="built_in">input</span>()) / <span class="number">100</span>  <span class="comment"># 月存款比例，输入30转为30%</span></span><br><span class="line">semi_annual_raise = <span class="built_in">float</span>(<span class="built_in">input</span>()) / <span class="number">100</span>  <span class="comment"># 输入每半年加薪比例，输入7转化为7%</span></span><br><span class="line"></span><br><span class="line">portion_down_payment = <span class="number">0.3</span>  <span class="comment"># 首付比例，浮点数</span></span><br><span class="line">down_payment = portion_down_payment * total_cost  <span class="comment"># 首付款</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;首付 <span class="subst">&#123;down_payment:<span class="number">.2</span>f&#125;</span> 元&quot;</span>)</span><br><span class="line"></span><br><span class="line">current_savings = <span class="number">0</span>  <span class="comment"># 存款金额，从0开始</span></span><br><span class="line">number_of_months = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> current_savings &lt; down_payment:</span><br><span class="line">    current_savings += current_savings * <span class="number">0.0225</span> / <span class="number">12</span>  <span class="comment"># 计算每月存款利息</span></span><br><span class="line">    current_savings += annual_salary / <span class="number">12</span> * portion_saved  <span class="comment"># 计算每月存款</span></span><br><span class="line">    number_of_months += <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> number_of_months % <span class="number">6</span> == <span class="number">0</span>:</span><br><span class="line">        annual_salary += annual_salary * semi_annual_raise</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> number_of_months % <span class="number">12</span> == <span class="number">0</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;第&#123;&#125;个月月末有&#123;:,.0f&#125;元存款&quot;</span>.<span class="built_in">format</span>(number_of_months, current_savings))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;需要<span class="subst">&#123;number_of_months&#125;</span>个月可以存够首付&quot;</span>)</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>LionLpeoridae</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>狮兔</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%A4%B4%E5%93%A5/"># 头哥</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2024/12/21/3-5%E9%B8%A1%E5%85%94%E5%90%8C%E7%AC%BC-project/">3.5鸡兔同笼(project)</a>
+            
+            
+            <a class="next" rel="next" href="/2024/12/21/3-3%E8%AE%A1%E7%AE%97%E5%9C%86%E5%91%A8%E7%8E%87-project/">3.3 计算圆周率(project)</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© LionLpeoridae | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

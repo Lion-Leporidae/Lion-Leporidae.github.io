@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="LionLpeoridae">
+
+
+
+
+
+<title>3.1 中国古代数学问题(project) | LionLeporidae</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">LionLeporidae&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">LionLeporidae&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">3.1 中国古代数学问题(project)</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">LionLpeoridae</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">December 21, 2024&nbsp;&nbsp;0:41:47</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%A4%B4%E6%AD%8C%E5%AE%9E%E8%AE%AD/">头歌实训</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="第1关：鸡兔同笼"><a href="#第1关：鸡兔同笼" class="headerlink" title="第1关：鸡兔同笼"></a>第1关：鸡兔同笼</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">在同一行内输入用空格分隔的两个整数，代表头和脚的数量，计算并输出笼中各有多少只鸡和兔，</span></span><br><span class="line"><span class="string">如无解则输出“Data Error!”，函数无返回值。</span></span><br><span class="line"><span class="string">输入：35 94</span></span><br><span class="line"><span class="string">输出：有23 只鸡，12 只兔</span></span><br><span class="line"><span class="string">输入：100 5</span></span><br><span class="line"><span class="string">输出：Data Error!</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">head,feet = <span class="built_in">map</span>(<span class="built_in">int</span>, <span class="built_in">input</span>().split()) <span class="comment">#读入以空格分隔的两个整数，表示头和脚的数量</span></span><br><span class="line"><span class="comment"># 计算鸡和兔的数量</span></span><br><span class="line">x = (<span class="number">4</span> * head - feet) / <span class="number">2</span></span><br><span class="line">y = head - x</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> x &gt;= <span class="number">0</span> <span class="keyword">and</span> y &gt;= <span class="number">0</span> <span class="keyword">and</span> x.is_integer() <span class="keyword">and</span> y.is_integer():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;有<span class="subst">&#123;<span class="built_in">int</span>(x)&#125;</span>只鸡，<span class="subst">&#123;<span class="built_in">int</span>(y)&#125;</span>只兔&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Data Error!&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="第2关：物不知数"><a href="#第2关：物不知数" class="headerlink" title="第2关：物不知数"></a>第2关：物不知数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;一些物品，不知道有多少个，3个3个数的话，还多出2个；5个5个数则多出3个；</span></span><br><span class="line"><span class="string">7个7个数也会多出2个。输入一个正整数，从小到大依次输出所有不超过输入数字</span></span><br><span class="line"><span class="string">且满足条件的物品数量，有多个答案时每行输出一个。</span></span><br><span class="line"><span class="string">例如输入：200</span></span><br><span class="line"><span class="string">输出：</span></span><br><span class="line"><span class="string">23</span></span><br><span class="line"><span class="string">128</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">valid_counts = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, n + <span class="number">1</span>):</span><br><span class="line">    <span class="keyword">if</span> i % <span class="number">3</span> == <span class="number">2</span> <span class="keyword">and</span> i % <span class="number">5</span> == <span class="number">3</span> <span class="keyword">and</span> i % <span class="number">7</span> == <span class="number">2</span>:</span><br><span class="line">        valid_counts.append(i)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">len</span>(valid_counts) == <span class="number">0</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;No solution!&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="keyword">for</span> count <span class="keyword">in</span> valid_counts:</span><br><span class="line">        <span class="built_in">print</span>(count)</span><br></pre></td></tr></table></figure>
+
+<h3 id="第3关：二鼠打洞"><a href="#第3关：二鼠打洞" class="headerlink" title="第3关：二鼠打洞"></a>第3关：二鼠打洞</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;有一堵十尺厚的墙，两只老鼠从两边向中间打洞。大老鼠第一天打洞一尺，小老鼠也是打洞一尺。</span></span><br><span class="line"><span class="string">大老鼠每天的打洞进度是前一天的一倍，小老鼠每天的进度是前一天的一半。计算并输出它们几天可以相逢，</span></span><br><span class="line"><span class="string">相逢时各打了多少尺。</span></span><br><span class="line"><span class="string">输入格式：输入1 个整数，代表墙的厚度，单位为尺</span></span><br><span class="line"><span class="string">输出格式：</span></span><br><span class="line"><span class="string">第一行输出1 个整数，表示相遇时所需的天数</span></span><br><span class="line"><span class="string">第二行输出2 个浮点数，分别为小鼠和大鼠打洞的距离，单位为尺，保留小数点后1 位数字。</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">wall = <span class="built_in">int</span>(<span class="built_in">input</span>()) <span class="comment">#墙壁的厚度</span></span><br><span class="line">rat, mouse, day, time = <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span> <span class="comment">#大鼠速度、小鼠速度、天数、当天工作时长（1表示工作一整天）</span></span><br><span class="line">distance_of_rat, distance_of_mouse = <span class="number">0</span>, <span class="number">0</span> <span class="comment">#大鼠路程、小鼠的路程</span></span><br><span class="line"><span class="keyword">while</span> wall &gt; <span class="number">0</span>:</span><br><span class="line">    wall = wall - rat - mouse</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> wall &lt;= <span class="number">0</span>:</span><br><span class="line">        wall = wall + rat + mouse</span><br><span class="line">        x = wall / (rat + mouse)</span><br><span class="line">        distance_of_rat += rat * x</span><br><span class="line">        distance_of_mouse += mouse * x</span><br><span class="line">        wall = wall - rat - mouse</span><br><span class="line">        day += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        distance_of_rat += rat</span><br><span class="line">        distance_of_mouse += mouse</span><br><span class="line">        day += <span class="number">1</span></span><br><span class="line">        rat = <span class="number">2</span> * rat</span><br><span class="line">        mouse = <span class="number">1</span> / <span class="number">2</span> * mouse</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(day)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">round</span>(distance_of_mouse, <span class="number">1</span>), <span class="built_in">round</span>(distance_of_rat, <span class="number">1</span>)) <span class="comment">#使用round函数来保留小数点后一位</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="第4关：宝塔上的琉璃灯"><a href="#第4关：宝塔上的琉璃灯" class="headerlink" title="第4关：宝塔上的琉璃灯"></a>第4关：宝塔上的琉璃灯</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;有一座八层宝塔，每一层都有一些琉璃灯，每一层的灯数都是上一层的二倍，</span></span><br><span class="line"><span class="string">已知共有765 盏琉璃灯，计算并输出每层各有多少盏琉璃灯。</span></span><br><span class="line"><span class="string">输出为8行，每行都是一个正整数，从上往下数字依次增大，每个数字代表本层宝塔上的琉璃灯数目。</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> count</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> first <span class="keyword">in</span> count(<span class="number">1</span>, <span class="number">1</span>):</span><br><span class="line">    floors = [first * (<span class="number">2</span>**i) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">8</span>)]</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">sum</span>(floors) == <span class="number">765</span>:</span><br><span class="line">        <span class="keyword">for</span> index, value <span class="keyword">in</span> <span class="built_in">enumerate</span>(floors, start=<span class="number">1</span>):</span><br><span class="line">            <span class="built_in">print</span>(value)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="第5关：李白买酒"><a href="#第5关：李白买酒" class="headerlink" title="第5关：李白买酒"></a>第5关：李白买酒</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;大诗人李白，提着酒壶，从家里出来，酒壶中有酒若干。他边走边唱：无事街上走，提壶去买酒，</span></span><br><span class="line"><span class="string">遇店加一倍，见花喝一斗，五遇店和花，喝光壶中酒，计算并输出壶中原有酒几斗？</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="comment">#解题思路：让李白按路线逆向走一遍</span></span><br><span class="line">wine =<span class="number">0</span>  <span class="comment">#最后酒壶空了</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">    <span class="comment">#遇到鲜花</span></span><br><span class="line">    wine = wine +<span class="number">1</span></span><br><span class="line">    <span class="comment">#遇到酒店</span></span><br><span class="line">    wine = wine / <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(wine) <span class="comment">#原来有多少斗酒</span></span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>LionLpeoridae</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>狮兔</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%A4%B4%E5%93%A5/"># 头哥</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2024/12/21/3-2%E4%B8%AA%E4%BA%BA%E6%89%80%E5%BE%97%E7%A8%8E%E8%AE%A1%E7%AE%97%E5%99%A8-project/">3.2 个人所得税计算器(project)</a>
+            
+            
+            <a class="next" rel="next" href="/2024/12/21/2-6%E5%BC%A7%E7%94%B0%E6%9C%AF-project%E6%B5%8B%E8%AF%95/">2.6 弧田术(project测试)</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© LionLpeoridae | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
