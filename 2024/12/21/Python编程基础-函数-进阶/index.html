@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="LionLpeoridae">
+
+
+
+
+
+<title>Python编程基础-函数-进阶 | LionLeporidae</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">LionLeporidae&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">LionLeporidae&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Python编程基础-函数-进阶</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">LionLpeoridae</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">December 21, 2024&nbsp;&nbsp;1:01:53</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%A4%B4%E6%AD%8C%E5%AE%9E%E8%AE%AD/">头歌实训</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="第1关：迷宫游戏"><a href="#第1关：迷宫游戏" class="headerlink" title="第1关：迷宫游戏"></a>第1关：迷宫游戏</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 全局变量</span></span><br><span class="line">has_key = <span class="literal">False</span>  <span class="comment"># 玩家是否有钥匙</span></span><br><span class="line">lives = <span class="number">3</span>  <span class="comment"># 初始生命值为3</span></span><br><span class="line">flag = <span class="literal">False</span>  <span class="comment"># 标志变量，用于避免重复提示找到钥匙</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">input_maze</span>():</span><br><span class="line">    maze = []</span><br><span class="line">    <span class="string">&quot;&quot;&quot;用户输入自定义迷宫，返回二维列表表示迷宫&quot;&quot;&quot;</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;请输入迷宫地图（#代表墙, .代表空地, S代表起点, E代表终点, K代表钥匙）：&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;请按行输入地图，或输入 &#x27;done&#x27; 结束输入：&quot;</span>)</span><br><span class="line">    <span class="comment"># 读入迷宫地图，直到用户输入 &#x27;done&#x27; 为止</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        line = <span class="built_in">input</span>()</span><br><span class="line">        <span class="keyword">if</span> line.strip().lower() == <span class="string">&#x27;done&#x27;</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        maze.append(<span class="built_in">list</span>(line))  <span class="comment"># 每一行存为一个列表，添加到 maze 中</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 验证迷宫是否包含起点和终点</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> validate_maze(maze):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;迷宫必须有起点(S)和终点(E)，请重新输入。&quot;</span>)</span><br><span class="line">        maze.clear()  <span class="comment"># 清空迷宫重新输入</span></span><br><span class="line">        input_maze()</span><br><span class="line">    <span class="keyword">return</span> maze</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">validate_maze</span>(<span class="params">maze</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;验证迷宫是否包含起点和终点&quot;&quot;&quot;</span></span><br><span class="line">    start_exist = <span class="built_in">any</span>(<span class="string">&#x27;S&#x27;</span> <span class="keyword">in</span> row <span class="keyword">for</span> row <span class="keyword">in</span> maze)  <span class="comment"># 检查是否存在起点 S</span></span><br><span class="line">    end_exist = <span class="built_in">any</span>(<span class="string">&#x27;E&#x27;</span> <span class="keyword">in</span> row <span class="keyword">for</span> row <span class="keyword">in</span> maze)  <span class="comment"># 检查是否存在终点 E</span></span><br><span class="line">    <span class="keyword">return</span> start_exist <span class="keyword">and</span> end_exist</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">find_start_exit_pos</span>(<span class="params">maze</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;找到起点和终点的位置&quot;&quot;&quot;</span></span><br><span class="line">    start_pos = <span class="literal">None</span></span><br><span class="line">    exit_pos = <span class="literal">None</span></span><br><span class="line">    <span class="comment"># 遍历迷宫矩阵，寻找 S 和 E 的位置</span></span><br><span class="line">    <span class="keyword">for</span> i, row <span class="keyword">in</span> <span class="built_in">enumerate</span>(maze):</span><br><span class="line">        <span class="keyword">for</span> j, cell <span class="keyword">in</span> <span class="built_in">enumerate</span>(row):</span><br><span class="line">            <span class="keyword">if</span> cell == <span class="string">&#x27;S&#x27;</span>:</span><br><span class="line">                start_pos = (i, j)</span><br><span class="line">            <span class="keyword">elif</span> cell == <span class="string">&#x27;E&#x27;</span>:</span><br><span class="line">                exit_pos = (i, j)</span><br><span class="line">    <span class="keyword">return</span> start_pos, exit_pos</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">print_maze</span>(<span class="params">maze, player_pos</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;打印当前迷宫状态以及玩家位置&quot;&quot;&quot;</span></span><br><span class="line">    maze_copy = [row[:] <span class="keyword">for</span> row <span class="keyword">in</span> maze]  <span class="comment"># 创建迷宫副本</span></span><br><span class="line">    px, py = player_pos</span><br><span class="line">    maze_copy[px][py] = <span class="string">&#x27;P&#x27;</span>  <span class="comment"># 用 P 标记玩家当前位置</span></span><br><span class="line">    <span class="comment"># 打印迷宫的每一行</span></span><br><span class="line">    <span class="keyword">for</span> i, row <span class="keyword">in</span> <span class="built_in">enumerate</span>(maze):</span><br><span class="line">        <span class="keyword">for</span> j, cell <span class="keyword">in</span> <span class="built_in">enumerate</span>(row):</span><br><span class="line">            <span class="built_in">print</span>(maze_copy[i][j], end=<span class="string">&#x27;&#x27;</span>) </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot; &quot;</span>) <span class="comment"># 输出迷宫矩阵中的字符</span></span><br><span class="line">        <span class="comment"># print()  # 换行</span></span><br><span class="line">    <span class="built_in">print</span>()</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">move_player</span>(<span class="params">maze, directionlst, now_pos</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;根据玩家的输入方向，移动玩家位置&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">global</span> lives  <span class="comment"># 使用全局变量 lives</span></span><br><span class="line">    before_pos = now_pos  <span class="comment"># 保存移动前的位置</span></span><br><span class="line">    <span class="keyword">for</span> dr <span class="keyword">in</span> directionlst:</span><br><span class="line">        row = now_pos[<span class="number">0</span>]</span><br><span class="line">        col = now_pos[<span class="number">1</span>]</span><br><span class="line"> </span><br><span class="line">        <span class="comment"># 根据输入方向修改玩家位置</span></span><br><span class="line">        <span class="keyword">if</span> dr == <span class="string">&#x27;w&#x27;</span>:  <span class="comment"># 向上</span></span><br><span class="line">            now_pos = (row - <span class="number">1</span>, col)</span><br><span class="line">        <span class="keyword">elif</span> dr == <span class="string">&#x27;s&#x27;</span>:  <span class="comment"># 向下</span></span><br><span class="line">            now_pos = (row + <span class="number">1</span>, col)</span><br><span class="line">        <span class="keyword">elif</span> dr == <span class="string">&#x27;d&#x27;</span>:  <span class="comment"># 向右（修改为跳两格）</span></span><br><span class="line">            now_pos = (row, col + <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">elif</span> dr == <span class="string">&#x27;a&#x27;</span>:  <span class="comment"># 向左（修改为跳两格）</span></span><br><span class="line">            now_pos = (row, col - <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">else</span>:  <span class="comment"># 无效指令</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;无效的移动指令，请输入 &#x27;w&#x27;, &#x27;a&#x27;, &#x27;s&#x27;, &#x27;d&#x27; 来移动。&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span> before_pos</span><br><span class="line"> </span><br><span class="line">        <span class="comment"># 检查是否为有效移动</span></span><br><span class="line">        <span class="keyword">if</span> is_valid_move(now_pos, maze):</span><br><span class="line">            get_key(maze, now_pos)  <span class="comment"># 检查是否拾取钥匙</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 移动无效时减少生命值</span></span><br><span class="line">            lives -= <span class="number">1</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;撞墙了！当前生命值为<span class="subst">&#123;lives&#125;</span>&quot;</span>)</span><br><span class="line">            <span class="keyword">if</span> lives &lt;= <span class="number">0</span>:  <span class="comment"># 生命值用尽</span></span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;你用尽了所有生命，游戏结束&quot;</span>)</span><br><span class="line">                exit()</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;无法移动到该位置！已回到上一次的位置。&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span> before_pos</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 提示找到钥匙（仅限一次）</span></span><br><span class="line">    <span class="keyword">global</span> flag</span><br><span class="line">    <span class="keyword">if</span> has_key <span class="keyword">and</span> flag == <span class="literal">False</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;你找到了钥匙！&quot;</span>)</span><br><span class="line">        flag = <span class="literal">True</span></span><br><span class="line">    <span class="keyword">return</span> now_pos</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">is_valid_move</span>(<span class="params">position, maze</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;检查移动是否有效（未越界且不是墙）&quot;&quot;&quot;</span></span><br><span class="line">    row, col = position</span><br><span class="line">    <span class="comment"># 确保行列在范围内且目标位置不是墙</span></span><br><span class="line">    <span class="keyword">if</span> <span class="number">0</span> &lt;= row &lt; <span class="built_in">len</span>(maze) <span class="keyword">and</span> <span class="number">0</span> &lt;= col &lt; <span class="built_in">len</span>(maze[<span class="number">0</span>]):</span><br><span class="line">        <span class="keyword">return</span> maze[row][col] != <span class="string">&#x27;#&#x27;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_key</span>(<span class="params">maze, new_pos</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;检查玩家是否拾取钥匙&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">global</span> has_key</span><br><span class="line">    row, col = new_pos</span><br><span class="line">    <span class="keyword">if</span> maze[row][col] == <span class="string">&#x27;K&#x27;</span>:  <span class="comment"># 如果当前位置是钥匙</span></span><br><span class="line">        has_key = <span class="literal">True</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="string">&quot;&quot;&quot;主函数：处理游戏逻辑&quot;&quot;&quot;</span></span><br><span class="line">    map_maze = input_maze()  <span class="comment"># 输入迷宫</span></span><br><span class="line">    start_pos, exit_pos = find_start_exit_pos(map_maze)  <span class="comment"># 获取起点和终点位置</span></span><br><span class="line">    before_pos = start_pos</span><br><span class="line">    now_pos = <span class="literal">None</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;迷宫已生成，目标是从 S 走到E，要求先拿到K，才可以打开出口大门，成功的走出迷宫。&quot;</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 游戏主循环</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        print_maze(map_maze, before_pos)  <span class="comment"># 打印迷宫和玩家位置</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;请输入移动方向 w 上, a 左, s 下, d 右：&quot;</span>, end=<span class="string">&quot;&quot;</span>)</span><br><span class="line">        move = <span class="built_in">input</span>().strip().lower()  <span class="comment"># 读取玩家输入</span></span><br><span class="line">        <span class="built_in">print</span>(move, end=<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">        now_pos = move_player(map_maze, move, before_pos)  <span class="comment"># 更新玩家位置</span></span><br><span class="line">        <span class="keyword">if</span> now_pos == exit_pos <span class="keyword">and</span> has_key:  <span class="comment"># 成功到达终点且有钥匙</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;恭喜你！成功走出了迷宫！&quot;</span>)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">if</span> now_pos == exit_pos <span class="keyword">and</span> <span class="keyword">not</span> has_key:  <span class="comment"># 到达终点但没有钥匙</span></span><br><span class="line">            now_pos = before_pos</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;你需要钥匙才能进入终点！&quot;</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;已经退回上一步位置！&quot;</span>)</span><br><span class="line">        before_pos = now_pos</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 运行游戏</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<h1 id="第2关：荒岛求生"><a href="#第2关：荒岛求生" class="headerlink" title="第2关：荒岛求生"></a>第2关：荒岛求生</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 玩家职业定义，player_classes是一个字典，请仔细阅读并理解</span></span><br><span class="line">player_classes = &#123;</span><br><span class="line">    <span class="string">&#x27;猎人&#x27;</span>: &#123;<span class="string">&#x27;health&#x27;</span>: <span class="number">120</span>, <span class="string">&#x27;hunger&#x27;</span>: <span class="number">40</span>, <span class="string">&#x27;thirst&#x27;</span>: <span class="number">40</span>, <span class="string">&#x27;energy&#x27;</span>: <span class="number">60</span>, <span class="string">&#x27;resources&#x27;</span>: &#123;<span class="string">&#x27;food&#x27;</span>: <span class="number">3</span>, <span class="string">&#x27;water&#x27;</span>: <span class="number">2</span>, <span class="string">&#x27;wood&#x27;</span>: <span class="number">1</span>&#125;, <span class="string">&#x27;skill&#x27;</span>: <span class="string">&#x27;捕猎&#x27;</span>&#125;,</span><br><span class="line">    <span class="string">&#x27;农夫&#x27;</span>: &#123;<span class="string">&#x27;health&#x27;</span>: <span class="number">100</span>, <span class="string">&#x27;hunger&#x27;</span>: <span class="number">30</span>, <span class="string">&#x27;thirst&#x27;</span>: <span class="number">50</span>, <span class="string">&#x27;energy&#x27;</span>: <span class="number">50</span>, <span class="string">&#x27;resources&#x27;</span>: &#123;<span class="string">&#x27;food&#x27;</span>: <span class="number">4</span>, <span class="string">&#x27;water&#x27;</span>: <span class="number">2</span>, <span class="string">&#x27;wood&#x27;</span>: <span class="number">0</span>&#125;, <span class="string">&#x27;skill&#x27;</span>: <span class="string">&#x27;种植&#x27;</span>&#125;,</span><br><span class="line">    <span class="string">&#x27;科学家&#x27;</span>: &#123;<span class="string">&#x27;health&#x27;</span>: <span class="number">90</span>, <span class="string">&#x27;hunger&#x27;</span>: <span class="number">50</span>, <span class="string">&#x27;thirst&#x27;</span>: <span class="number">50</span>, <span class="string">&#x27;energy&#x27;</span>: <span class="number">70</span>, <span class="string">&#x27;resources&#x27;</span>: &#123;<span class="string">&#x27;food&#x27;</span>: <span class="number">2</span>, <span class="string">&#x27;water&#x27;</span>: <span class="number">2</span>, <span class="string">&#x27;wood&#x27;</span>: <span class="number">0</span>, <span class="string">&#x27;tools&#x27;</span>: <span class="number">1</span>&#125;, <span class="string">&#x27;skill&#x27;</span>: <span class="string">&#x27;发明工具&#x27;</span>&#125;,</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">#探索事件字典</span></span><br><span class="line">explore_events = &#123;<span class="string">&#x27;event_1&#x27;</span>:</span><br><span class="line">    <span class="string">&quot;暴风雨来袭，木材被摧毁！&quot;</span>,<span class="string">&#x27;event_2&#x27;</span>:</span><br><span class="line">    <span class="string">&quot;野兽袭击，生命值减少20！&quot;</span>,<span class="string">&#x27;event_3&#x27;</span>:</span><br><span class="line">    <span class="string">&quot;天气晴朗，额外获得一份食物和水！&quot;</span>,<span class="string">&#x27;event_4&#x27;</span>:</span><br><span class="line">    <span class="string">&quot;找到隐藏的宝箱，获得5木材！&quot;</span>,<span class="string">&#x27;event_5&#x27;</span>:</span><br><span class="line">    <span class="string">&quot;资源稀缺，食物和水减少一半！&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">create_player</span>(<span class="params">class_name</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;初始化玩家&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> class_name <span class="keyword">in</span> player_classes:</span><br><span class="line">        player = player_classes[class_name] <span class="comment"># 创建玩家属性</span></span><br><span class="line">        player[<span class="string">&#x27;class&#x27;</span>] = class_name  <span class="comment"># 保存玩家职业</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;你选择的职业是: <span class="subst">&#123;class_name&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> player</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;无效的职业！&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">display_status</span>(<span class="params">player</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;显示玩家状态&quot;&quot;&quot;</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;\n职业: <span class="subst">&#123;player[<span class="string">&#x27;class&#x27;</span>]&#125;</span> (技能: <span class="subst">&#123;player[<span class="string">&#x27;skill&#x27;</span>]&#125;</span>)&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;生命值: <span class="subst">&#123;player[<span class="string">&#x27;health&#x27;</span>]&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;饥饿值: <span class="subst">&#123;player[<span class="string">&#x27;hunger&#x27;</span>]&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;口渴值: <span class="subst">&#123;player[<span class="string">&#x27;thirst&#x27;</span>]&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;能量值: <span class="subst">&#123;player[<span class="string">&#x27;energy&#x27;</span>]&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;资源: <span class="subst">&#123;player[<span class="string">&#x27;resources&#x27;</span>]&#125;</span>\n&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">eat_food</span>(<span class="params">player</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;吃食物:吃一份食物，资源中food值减1，玩家饥饿值减少20，并输出:你吃了一份食物！饥饿值减少。但如果食物不足，则输出：没有食物可以吃！&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> player[<span class="string">&#x27;resources&#x27;</span>][<span class="string">&#x27;food&#x27;</span>] &gt; <span class="number">0</span>:</span><br><span class="line">        player[<span class="string">&#x27;resources&#x27;</span>][<span class="string">&#x27;food&#x27;</span>] -= <span class="number">1</span></span><br><span class="line">        player[<span class="string">&#x27;hunger&#x27;</span>] = <span class="built_in">max</span>(<span class="number">0</span>, player[<span class="string">&#x27;hunger&#x27;</span>] - <span class="number">20</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;你吃了一份食物！饥饿值减少。&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;没有食物可以吃！&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">drink_water</span>(<span class="params">player</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;喝水：喝一次水，资源中water值减1，玩家口渴值减少20，并输出:你喝了一杯水！口渴值减少。但如果水不足，则输出：没有水可以喝！&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> player[<span class="string">&#x27;resources&#x27;</span>][<span class="string">&#x27;water&#x27;</span>] &gt; <span class="number">0</span>:</span><br><span class="line">        player[<span class="string">&#x27;resources&#x27;</span>][<span class="string">&#x27;water&#x27;</span>] -= <span class="number">1</span></span><br><span class="line">        player[<span class="string">&#x27;thirst&#x27;</span>] = <span class="built_in">max</span>(<span class="number">0</span>, player[<span class="string">&#x27;thirst&#x27;</span>] - <span class="number">20</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;你喝了一杯水！口渴值减少。&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;没有水可以喝！&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">rest</span>(<span class="params">player</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;休息：能量值增加20，不能超过100。&quot;&quot;&quot;</span></span><br><span class="line">    player[<span class="string">&#x27;energy&#x27;</span>] = <span class="built_in">min</span>(<span class="number">100</span>, player[<span class="string">&#x27;energy&#x27;</span>] + <span class="number">20</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;你休息了一会儿，能量值恢复了。&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">gather_resources</span>(<span class="params">player</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;采集资源：玩家资源中的食物+2，水+1，木材+1，并输出：你采集到了资源：2食物，1水，1木材。&quot;&quot;&quot;</span></span><br><span class="line">    player[<span class="string">&#x27;resources&#x27;</span>][<span class="string">&#x27;food&#x27;</span>] += <span class="number">2</span></span><br><span class="line">    player[<span class="string">&#x27;resources&#x27;</span>][<span class="string">&#x27;water&#x27;</span>] += <span class="number">1</span></span><br><span class="line">    player[<span class="string">&#x27;resources&#x27;</span>][<span class="string">&#x27;wood&#x27;</span>] += <span class="number">1</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;你采集到了资源：2食物，1水，1木材。&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">explore</span>(<span class="params">player,event</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;探索事件&quot;&quot;&quot;</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;你决定去探索...&quot;</span>)</span><br><span class="line">    event_item = explore_events[event]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;探索事件发生: <span class="subst">&#123;event_item&#125;</span>&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 处理不同的探索事件</span></span><br><span class="line">    <span class="keyword">if</span> <span class="string">&quot;暴风雨&quot;</span> <span class="keyword">in</span> event_item:</span><br><span class="line">        player[<span class="string">&#x27;resources&#x27;</span>][<span class="string">&#x27;wood&#x27;</span>] = <span class="built_in">max</span>(<span class="number">0</span>, player[<span class="string">&#x27;resources&#x27;</span>][<span class="string">&#x27;wood&#x27;</span>] - <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">elif</span> <span class="string">&quot;野兽袭击&quot;</span> <span class="keyword">in</span> event_item:</span><br><span class="line">        player[<span class="string">&#x27;health&#x27;</span>] -= <span class="number">0</span></span><br><span class="line">    <span class="keyword">elif</span> <span class="string">&quot;天气晴朗&quot;</span> <span class="keyword">in</span> event_item:</span><br><span class="line">        player[<span class="string">&#x27;resources&#x27;</span>][<span class="string">&#x27;food&#x27;</span>] += <span class="number">1</span></span><br><span class="line">        player[<span class="string">&#x27;resources&#x27;</span>][<span class="string">&#x27;water&#x27;</span>] += <span class="number">1</span></span><br><span class="line">    <span class="keyword">elif</span> <span class="string">&quot;宝箱&quot;</span> <span class="keyword">in</span> event_item:</span><br><span class="line">        player[<span class="string">&#x27;resources&#x27;</span>][<span class="string">&#x27;wood&#x27;</span>] += <span class="number">5</span></span><br><span class="line">    <span class="keyword">elif</span> <span class="string">&quot;资源稀缺&quot;</span> <span class="keyword">in</span> event_item:</span><br><span class="line">        player[<span class="string">&#x27;resources&#x27;</span>][<span class="string">&#x27;food&#x27;</span>] = <span class="built_in">max</span>(<span class="number">0</span>, player[<span class="string">&#x27;resources&#x27;</span>][<span class="string">&#x27;food&#x27;</span>] // <span class="number">2</span>)</span><br><span class="line">        player[<span class="string">&#x27;resources&#x27;</span>][<span class="string">&#x27;water&#x27;</span>] = <span class="built_in">max</span>(<span class="number">0</span>, player[<span class="string">&#x27;resources&#x27;</span>][<span class="string">&#x27;water&#x27;</span>] // <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">use_skill</span>(<span class="params">player</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;使用职业技能：不同类型的玩家使用技能获得不同的收入&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> player[<span class="string">&#x27;skill&#x27;</span>] == <span class="string">&#x27;捕猎&#x27;</span>:</span><br><span class="line">        player[<span class="string">&#x27;resources&#x27;</span>][<span class="string">&#x27;food&#x27;</span>] += <span class="number">3</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;你使用猎人的捕猎技能，成功获得额外的食物！&quot;</span>)</span><br><span class="line">    <span class="keyword">elif</span> player[<span class="string">&#x27;skill&#x27;</span>] == <span class="string">&#x27;种植&#x27;</span>:</span><br><span class="line">        player[<span class="string">&#x27;resources&#x27;</span>][<span class="string">&#x27;food&#x27;</span>] += <span class="number">1</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;你使用农夫的种植技能，成功种植了食物，未来几轮获得额外资源！&quot;</span>)</span><br><span class="line">    <span class="keyword">elif</span> player[<span class="string">&#x27;skill&#x27;</span>] == <span class="string">&#x27;发明工具&#x27;</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="string">&#x27;tools&#x27;</span> <span class="keyword">in</span> player[<span class="string">&#x27;resources&#x27;</span>]:</span><br><span class="line">            player[<span class="string">&#x27;resources&#x27;</span>][<span class="string">&#x27;tools&#x27;</span>] += <span class="number">1</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            player[<span class="string">&#x27;resources&#x27;</span>][<span class="string">&#x27;tools&#x27;</span>] = <span class="number">1</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;你使用科学家的发明技能，成功制造了工具，采集效率提升！&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    <span class="string">&quot;&quot;&quot;游戏主循环&quot;&quot;&quot;</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;请选择职业（猎人、农夫、科学家）: &quot;</span>)</span><br><span class="line">    class_name = <span class="built_in">input</span>()</span><br><span class="line">    player = create_player(class_name)</span><br><span class="line">    <span class="keyword">if</span> player <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">return</span>  <span class="comment"># 职业无效，结束程序</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> player[<span class="string">&#x27;health&#x27;</span>] &gt; <span class="number">0</span>:</span><br><span class="line">        display_status(player)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;你想做什么？(吃食物/喝水/休息/采集资源/探索:event1-5/使用技能/退出): &quot;</span>)</span><br><span class="line">        action = <span class="built_in">input</span>()</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> action == <span class="string">&quot;吃食物&quot;</span>:</span><br><span class="line">            eat_food(player)</span><br><span class="line">        <span class="keyword">elif</span> action == <span class="string">&quot;喝水&quot;</span>:</span><br><span class="line">            drink_water(player)</span><br><span class="line">        <span class="keyword">elif</span> action == <span class="string">&quot;休息&quot;</span>:</span><br><span class="line">            rest(player)</span><br><span class="line">        <span class="keyword">elif</span> action == <span class="string">&quot;采集资源&quot;</span>:</span><br><span class="line">            gather_resources(player)</span><br><span class="line">        <span class="keyword">elif</span> action <span class="keyword">in</span> [<span class="string">&#x27;event_1&#x27;</span>, <span class="string">&#x27;event_2&#x27;</span>, <span class="string">&#x27;event_3&#x27;</span>, <span class="string">&#x27;event_4&#x27;</span>, <span class="string">&#x27;event_5&#x27;</span>]:</span><br><span class="line">            explore(player,action)</span><br><span class="line">        <span class="keyword">elif</span> action == <span class="string">&quot;使用技能&quot;</span>:</span><br><span class="line">            use_skill(player)</span><br><span class="line">        <span class="keyword">elif</span> action == <span class="string">&quot;退出&quot;</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;退出游戏。&quot;</span>)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;无效的操作！&quot;</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 简单的状态更新</span></span><br><span class="line">        player[<span class="string">&#x27;hunger&#x27;</span>] += <span class="number">5</span></span><br><span class="line">        player[<span class="string">&#x27;thirst&#x27;</span>] += <span class="number">5</span></span><br><span class="line">        player[<span class="string">&#x27;energy&#x27;</span>] -= <span class="number">10</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 检查状态</span></span><br><span class="line">        <span class="keyword">if</span> player[<span class="string">&#x27;hunger&#x27;</span>] &gt; <span class="number">100</span>:</span><br><span class="line">            player[<span class="string">&#x27;health&#x27;</span>] -= <span class="number">10</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;你太饿了！生命值下降。&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> player[<span class="string">&#x27;thirst&#x27;</span>] &gt; <span class="number">100</span>:</span><br><span class="line">            player[<span class="string">&#x27;health&#x27;</span>] -= <span class="number">10</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;你太渴了！生命值下降。&quot;</span>)</span><br><span class="line">        <span class="keyword">if</span> player[<span class="string">&#x27;energy&#x27;</span>] &lt; <span class="number">0</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;你累倒了，游戏结束！&quot;</span>)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;游戏结束！&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    main()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>LionLpeoridae</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>狮兔</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%A4%B4%E5%93%A5/"># 头哥</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2024/12/21/3-7%E5%9C%B0%E4%B8%8B%E6%B0%B4%E4%BD%8D%E9%A2%84%E6%B5%8B-preject/">3.7地下水位预测(preject)</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© LionLpeoridae | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
