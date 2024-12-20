@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="LionLpeoridae">
+
+
+
+
+
+<title>Python入门之基础语法 | LionLeporidae</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">LionLeporidae&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">LionLeporidae&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Python入门之基础语法</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">LionLpeoridae</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">December 21, 2024&nbsp;&nbsp;0:00:07</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%A4%B4%E6%AD%8C%E5%AE%9E%E8%AE%AD/">头歌实训</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="Python-代码练习和错误示例"><a href="#Python-代码练习和错误示例" class="headerlink" title="Python 代码练习和错误示例"></a>Python 代码练习和错误示例</h1><h2 id="有错误的函数部分"><a href="#有错误的函数部分" class="headerlink" title="有错误的函数部分"></a>有错误的函数部分</h2><h3 id="函数-1"><a href="#函数-1" class="headerlink" title="函数 1"></a>函数 1</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">wrong1</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;wrong1&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;这里有一个错误缩进&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">wrong2</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;wrong2&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="literal">False</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;这个不应该输出&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;这个也不应该输出&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">wrong3</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;wrong3&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;hello world&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    wrong1()</span><br><span class="line">    wrong2()</span><br><span class="line">    wrong3()</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="错误处理示例"><a href="#错误处理示例" class="headerlink" title="错误处理示例"></a>错误处理示例</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> keyword</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 错误 1</span></span><br><span class="line">    str1 = <span class="string">&quot;string&quot;</span></span><br><span class="line">    <span class="built_in">print</span>(str1)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 错误 2</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="number">1024</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 错误 3</span></span><br><span class="line">    float_1 = <span class="number">1.024</span></span><br><span class="line">    <span class="built_in">print</span>(float_1)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 错误 4</span></span><br><span class="line">    <span class="comment"># False = False</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="literal">False</span>)</span><br><span class="line">    <span class="built_in">print</span>(keyword.kwlist)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 在此处输出保留关键字</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;end&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="注释示例"><a href="#注释示例" class="headerlink" title="注释示例"></a>注释示例</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 以下是要修改的代码</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="number">1</span>)</span><br><span class="line">    <span class="comment"># print(2)</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="number">3</span>)</span><br><span class="line">    <span class="comment"># print(4)</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="number">5</span>)</span><br><span class="line">    <span class="comment"># print(6)</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;hello world&quot;</span>)</span><br><span class="line">    <span class="comment"># print(&quot;这个不应该输出&quot;)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># print(1)</span></span><br><span class="line">    <span class="comment"># print(2)</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="number">3</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="简单计算器功能"><a href="#简单计算器功能" class="headerlink" title="简单计算器功能"></a>简单计算器功能</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    a = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">    b = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">    <span class="comment"># ********** Begin ********** #</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;%d + %d = %d&quot;</span> % (a, b, a + b))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;%d - %d = %d&quot;</span> % (a, b, a - b))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;%d * %d = %d&quot;</span> % (a, b, a * b))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;%d / %d = %f&quot;</span> % (a, b, a / b))</span><br><span class="line">    <span class="comment"># ********** End ********** #</span></span><br></pre></td></tr></table></figure>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>LionLpeoridae</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>狮兔</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%A4%B4%E5%93%A5/"># 头哥</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2024/12/21/Python%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80-%E5%87%BD%E6%95%B0-%E5%9F%BA%E7%A1%80/">Python编程基础-函数-基础</a>
+            
+            
+            <a class="next" rel="next" href="/2024/12/21/Python%E5%88%9D%E4%BD%93%E9%AA%8C%E2%80%94%E2%80%94Hello%20World/">Python初体验——Hello World</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© LionLpeoridae | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
