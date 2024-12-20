@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="LionLpeoridae">
+
+
+
+
+
+<title>Pandas初体验 | LionLeporidae</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">LionLeporidae&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">LionLeporidae&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Pandas初体验</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">LionLpeoridae</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">December 21, 2024&nbsp;&nbsp;1:22:39</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%A4%B4%E6%AD%8C%E5%AE%9E%E8%AE%AD/">头歌实训</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="第1关：了解数据处理对象–Series"><a href="#第1关：了解数据处理对象–Series" class="headerlink" title="第1关：了解数据处理对象–Series"></a>第1关：了解数据处理对象–Series</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> pandas <span class="keyword">import</span> Series,DataFrame</span><br><span class="line"><span class="keyword">import</span>  pandas <span class="keyword">as</span> pd</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">create_series</span>():</span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    返回值:</span></span><br><span class="line"><span class="string">    series_a: 一个Series类型数据</span></span><br><span class="line"><span class="string">    series_b: 一个Series类型数据</span></span><br><span class="line"><span class="string">    dict_a：  一个字典类型数据</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="comment"># 请在此添加代码 完成本关任务</span></span><br><span class="line">    <span class="comment"># ********** Begin *********#</span></span><br><span class="line">    series_a=Series([<span class="number">1</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">7</span>],index=[<span class="string">&#x27;nu&#x27;</span>,<span class="string">&#x27;li&#x27;</span>,<span class="string">&#x27;xue&#x27;</span>,<span class="string">&#x27;xi&#x27;</span>])</span><br><span class="line">    dict_a=&#123;<span class="string">&#x27;ting&#x27;</span>:<span class="number">1</span>, <span class="string">&#x27;shuo&#x27;</span>:<span class="number">2</span>, <span class="string">&#x27;du&#x27;</span>:<span class="number">32</span>, <span class="string">&#x27;xie&#x27;</span>:<span class="number">44</span>&#125;</span><br><span class="line">    series_b=Series(dict_a)</span><br><span class="line">    <span class="comment"># ********** End **********#</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 返回series_a,dict_a,series_b</span></span><br><span class="line">    <span class="keyword">return</span> series_a,dict_a,series_b</span><br></pre></td></tr></table></figure>
+
+<h3 id="第2关：了解数据处理对象-DataFrame"><a href="#第2关：了解数据处理对象-DataFrame" class="headerlink" title="第2关：了解数据处理对象-DataFrame"></a>第2关：了解数据处理对象-DataFrame</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> pandas <span class="keyword">import</span> Series,DataFrame</span><br><span class="line"><span class="keyword">import</span>  pandas <span class="keyword">as</span> pd</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">create_dataframe</span>():</span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    返回值:</span></span><br><span class="line"><span class="string">    df1: 一个DataFrame类型数据</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="comment"># 请在此添加代码 完成本关任务</span></span><br><span class="line">    <span class="comment"># ********** Begin *********#</span></span><br><span class="line">    dictionary = &#123;<span class="string">&#x27;states&#x27;</span>:[<span class="string">&#x27;0hio&#x27;</span>,<span class="string">&#x27;0hio&#x27;</span>,<span class="string">&#x27;0hio&#x27;</span>,<span class="string">&#x27;Nevada&#x27;</span>,<span class="string">&#x27;Nevada&#x27;</span>],</span><br><span class="line">         <span class="string">&#x27;years&#x27;</span>:[<span class="number">2000</span>,<span class="number">2001</span>,<span class="number">2002</span>,<span class="number">2001</span>,<span class="number">2002</span>],</span><br><span class="line">         <span class="string">&#x27;pops&#x27;</span>:[<span class="number">1.5</span>,<span class="number">1.7</span>,<span class="number">3.6</span>,<span class="number">2.4</span>,<span class="number">2.9</span>]&#125;</span><br><span class="line">    df1 = DataFrame(dictionary)</span><br><span class="line">    df1=DataFrame(dictionary,index=[<span class="string">&#x27;one&#x27;</span>,<span class="string">&#x27;two&#x27;</span>,<span class="string">&#x27;three&#x27;</span>,<span class="string">&#x27;four&#x27;</span>,<span class="string">&#x27;five&#x27;</span>])</span><br><span class="line">    df1[<span class="string">&#x27;new_add&#x27;</span>]=[<span class="number">7</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">8</span>,<span class="number">2</span>]</span><br><span class="line">    <span class="comment"># ********** End **********#</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment">#返回df1</span></span><br><span class="line">    <span class="keyword">return</span> df1</span><br></pre></td></tr></table></figure>
+
+<h3 id="第3关：读取-CSV-格式数据"><a href="#第3关：读取-CSV-格式数据" class="headerlink" title="第3关：读取 CSV 格式数据"></a>第3关：读取 CSV 格式数据</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> pandas <span class="keyword">import</span> Series,DataFrame</span><br><span class="line"><span class="keyword">import</span>  pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">read_csv_data</span>():</span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    返回值:</span></span><br><span class="line"><span class="string">    df1: 一个DataFrame类型数据</span></span><br><span class="line"><span class="string">    length1: 一个int类型数据</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="comment"># 请在此添加代码 完成本关任务</span></span><br><span class="line">    <span class="comment"># ********** Begin *********#</span></span><br><span class="line">    df1 = pd.read_csv(<span class="string">&#x27;test3/uk_rain_2014.csv&#x27;</span>, header=<span class="number">0</span>)</span><br><span class="line">    df1.columns = [<span class="string">&#x27;water_year&#x27;</span>,<span class="string">&#x27;rain_octsep&#x27;</span>,<span class="string">&#x27;outflow_octsep&#x27;</span>,<span class="string">&#x27;rain_decfeb&#x27;</span>, <span class="string">&#x27;outflow_decfeb&#x27;</span>, <span class="string">&#x27;rain_junaug&#x27;</span>, <span class="string">&#x27;outflow_junaug&#x27;</span>]</span><br><span class="line">    length1=<span class="built_in">len</span>(df1)</span><br><span class="line">    <span class="comment"># ********** End **********#</span></span><br><span class="line">    <span class="comment">#返回df1,length1</span></span><br><span class="line">    <span class="keyword">return</span> df1,length1</span><br></pre></td></tr></table></figure>
+
+<h3 id="第4关：数据的基本操作——排序"><a href="#第4关：数据的基本操作——排序" class="headerlink" title="第4关：数据的基本操作——排序"></a>第4关：数据的基本操作——排序</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> pandas <span class="keyword">import</span> Series,DataFrame</span><br><span class="line"><span class="keyword">import</span>  pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">sort_gate</span>():</span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    返回值:</span></span><br><span class="line"><span class="string">    s2: 一个Series类型数据</span></span><br><span class="line"><span class="string">    d2: 一个DataFrame类型数据</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment"># s1是Series类型数据，d1是DataFrame类型数据</span></span><br><span class="line">    s1 = Series([<span class="number">4</span>, <span class="number">3</span>, <span class="number">7</span>, <span class="number">2</span>, <span class="number">8</span>], index=[<span class="string">&#x27;z&#x27;</span>, <span class="string">&#x27;y&#x27;</span>, <span class="string">&#x27;j&#x27;</span>, <span class="string">&#x27;i&#x27;</span>, <span class="string">&#x27;e&#x27;</span>])</span><br><span class="line">    d1 = DataFrame(&#123;<span class="string">&#x27;e&#x27;</span>: [<span class="number">4</span>, <span class="number">2</span>, <span class="number">6</span>, <span class="number">1</span>], <span class="string">&#x27;f&#x27;</span>: [<span class="number">0</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">2</span>]&#125;)</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 请在此添加代码 完成本关任务</span></span><br><span class="line">    <span class="comment"># ********** Begin *********#</span></span><br><span class="line">    s2=s1.sort_index()</span><br><span class="line">    d2=d1.sort_values(by=<span class="string">&#x27;f&#x27;</span>)</span><br><span class="line">    <span class="comment"># ********** End **********#</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment">#返回s2,d2</span></span><br><span class="line">    <span class="keyword">return</span> s2,d2</span><br></pre></td></tr></table></figure>
+
+<h3 id="第5关：数据的基本操作——删除"><a href="#第5关：数据的基本操作——删除" class="headerlink" title="第5关：数据的基本操作——删除"></a>第5关：数据的基本操作——删除</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> pandas <span class="keyword">import</span> Series,DataFrame</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span>  pandas <span class="keyword">as</span> pd</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">delete_data</span>():</span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    返回值:</span></span><br><span class="line"><span class="string">    s2: 一个Series类型数据</span></span><br><span class="line"><span class="string">    d2: 一个DataFrame类型数据</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment"># s1是Series类型数据，d1是DataFrame类型数据</span></span><br><span class="line">    s1 = Series([<span class="number">5</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">1</span>], index=[<span class="string">&#x27;v&#x27;</span>, <span class="string">&#x27;x&#x27;</span>, <span class="string">&#x27;y&#x27;</span>, <span class="string">&#x27;z&#x27;</span>])</span><br><span class="line">    d1=DataFrame(np.arange(<span class="number">9</span>).reshape(<span class="number">3</span>,<span class="number">3</span>), columns=[<span class="string">&#x27;xx&#x27;</span>,<span class="string">&#x27;yy&#x27;</span>,<span class="string">&#x27;zz&#x27;</span>])</span><br><span class="line">    <span class="comment"># 请在此添加代码 完成本关任务</span></span><br><span class="line">    <span class="comment"># ********** Begin *********#</span></span><br><span class="line">    s2=s1.drop(<span class="string">&#x27;z&#x27;</span>)</span><br><span class="line">    d2=d1.drop([<span class="string">&#x27;yy&#x27;</span>],axis=<span class="number">1</span>)</span><br><span class="line">    <span class="comment"># ********** End **********#</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 返回s2,d2</span></span><br><span class="line">    <span class="keyword">return</span> s2, d2</span><br></pre></td></tr></table></figure>
+
+<h3 id="第6关：数据的基本操作——算术运算"><a href="#第6关：数据的基本操作——算术运算" class="headerlink" title="第6关：数据的基本操作——算术运算"></a>第6关：数据的基本操作——算术运算</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> pandas <span class="keyword">import</span> Series,DataFrame</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span>  pandas <span class="keyword">as</span> pd</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add_way</span>():</span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    返回值:</span></span><br><span class="line"><span class="string">    df3: 一个DataFrame类型数据</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment"># df1,df2是DataFrame类型数据</span></span><br><span class="line">    df1 = DataFrame(np.arange(<span class="number">12.</span>).reshape((<span class="number">3</span>, <span class="number">4</span>)), columns=<span class="built_in">list</span>(<span class="string">&#x27;abcd&#x27;</span>))</span><br><span class="line">    df2 = DataFrame(np.arange(<span class="number">20.</span>).reshape((<span class="number">4</span>, <span class="number">5</span>)), columns=<span class="built_in">list</span>(<span class="string">&#x27;abcde&#x27;</span>))</span><br><span class="line">    df3=df1.add(df2,fill_value=<span class="number">4</span>)</span><br><span class="line">    <span class="comment"># 请在此添加代码 完成本关任务</span></span><br><span class="line">    <span class="comment"># ********** Begin *********#</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    <span class="comment"># ********** End **********#</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 返回df3</span></span><br><span class="line">    <span class="keyword">return</span> df3</span><br></pre></td></tr></table></figure>
+
+<h3 id="第7关：数据的基本操作——去重"><a href="#第7关：数据的基本操作——去重" class="headerlink" title="第7关：数据的基本操作——去重"></a>第7关：数据的基本操作——去重</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> pandas <span class="keyword">import</span> Series,DataFrame</span><br><span class="line"><span class="keyword">import</span>  pandas <span class="keyword">as</span> pd</span><br><span class="line"> </span><br><span class="line"><span class="keyword">def</span> <span class="title function_">delete_duplicated</span>():</span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    返回值:</span></span><br><span class="line"><span class="string">    df2: 一个DataFrame类型数据</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment"># df1是DataFrame类型数据</span></span><br><span class="line">    df1 = DataFrame(&#123;<span class="string">&#x27;k1&#x27;</span>: [<span class="string">&#x27;one&#x27;</span>] * <span class="number">3</span> + [<span class="string">&#x27;two&#x27;</span>] * <span class="number">4</span>, <span class="string">&#x27;k2&#x27;</span>: [<span class="number">1</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">4</span>]&#125;)</span><br><span class="line">    <span class="comment"># 请在此添加代码 完成本关任务</span></span><br><span class="line">    <span class="comment"># ********** Begin *********#</span></span><br><span class="line">    df2=df1.drop_duplicates()</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># ********** End **********#</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 返回df2</span></span><br><span class="line">    <span class="keyword">return</span> df2</span><br></pre></td></tr></table></figure>
+
+<h3 id="第8关：数据重塑"><a href="#第8关：数据重塑" class="headerlink" title="第8关：数据重塑"></a>第8关：数据重塑</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> pandas <span class="keyword">import</span> Series,DataFrame</span><br><span class="line"><span class="keyword">import</span>  pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">suoying</span>():</span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    返回值:</span></span><br><span class="line"><span class="string">    d1: 一个DataFrame类型数据</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="comment">#s1是Series类型数据</span></span><br><span class="line">    s1=Series(np.random.randn(<span class="number">10</span>),</span><br><span class="line">           index=[[<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>, <span class="string">&#x27;d&#x27;</span>], [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>]])</span><br><span class="line">    <span class="comment"># 请在此添加代码 完成本关任务</span></span><br><span class="line">    <span class="comment"># ********** Begin *********#</span></span><br><span class="line">    d1=s1.unstack()</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># ********** End **********#</span></span><br><span class="line"> </span><br><span class="line">    <span class="comment"># 返回d1</span></span><br><span class="line">    <span class="keyword">return</span> d1</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">suoying()</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>LionLpeoridae</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>狮兔</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%A4%B4%E5%93%A5/"># 头哥</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2024/12/21/Python-%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/">Python--进程和线程</a>
+            
+            
+            <a class="next" rel="next" href="/2024/12/21/NumPy%E5%9F%BA%E7%A1%80%E5%8F%8A%E5%8F%96%E5%80%BC%E6%93%8D%E4%BD%9C/">NumPy基础及取值操作</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© LionLpeoridae | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="LionLpeoridae">
+
+
+
+
+
+<title>if语句——Python分支结构训练 | LionLeporidae</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">LionLeporidae&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">LionLeporidae&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">if语句——Python分支结构训练</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">LionLpeoridae</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">December 21, 2024&nbsp;&nbsp;1:08:11</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%A4%B4%E6%AD%8C%E5%AE%9E%E8%AE%AD/">头歌实训</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="第1关：三位水仙花数"><a href="#第1关：三位水仙花数" class="headerlink" title="第1关：三位水仙花数"></a>第1关：三位水仙花数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="built_in">input</span>()</span><br><span class="line"></span><br><span class="line">num = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> n:</span><br><span class="line">    num += <span class="built_in">int</span>(i) ** <span class="built_in">len</span>(n)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">int</span>(n) == num:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;True&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;False&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="第2关：判断闰年"><a href="#第2关：判断闰年" class="headerlink" title="第2关：判断闰年"></a>第2关：判断闰年</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> n % <span class="number">4</span> == <span class="number">0</span> <span class="keyword">and</span> n % <span class="number">100</span>!= <span class="number">0</span> <span class="keyword">or</span> n % <span class="number">400</span> == <span class="number">0</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;True&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;False&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="第3关：考试成绩统计"><a href="#第3关：考试成绩统计" class="headerlink" title="第3关：考试成绩统计"></a>第3关：考试成绩统计</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">result = &#123;<span class="string">&quot;优秀&quot;</span>: <span class="number">0</span>, <span class="string">&quot;良&quot;</span>: <span class="number">0</span>, <span class="string">&quot;中&quot;</span>: <span class="number">0</span>, <span class="string">&quot;及格&quot;</span>: <span class="number">0</span>, <span class="string">&quot;不及格&quot;</span>: <span class="number">0</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> it <span class="keyword">in</span> <span class="built_in">input</span>().split(<span class="string">&quot;,&quot;</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">int</span>(it) &gt;= <span class="number">90</span>:</span><br><span class="line">        result[<span class="string">&quot;优秀&quot;</span>] += <span class="number">1</span></span><br><span class="line">    <span class="keyword">elif</span> <span class="built_in">int</span>(it) &gt;= <span class="number">80</span>:</span><br><span class="line">        result[<span class="string">&quot;良&quot;</span>] += <span class="number">1</span></span><br><span class="line">    <span class="keyword">elif</span> <span class="built_in">int</span>(it) &gt;= <span class="number">70</span>:</span><br><span class="line">        result[<span class="string">&quot;中&quot;</span>] += <span class="number">1</span></span><br><span class="line">    <span class="keyword">elif</span> <span class="built_in">int</span>(it) &gt;= <span class="number">60</span>:</span><br><span class="line">        result[<span class="string">&quot;及格&quot;</span>] += <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        result[<span class="string">&quot;不及格&quot;</span>] += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<h3 id="第4关：简单的数字排序"><a href="#第4关：简单的数字排序" class="headerlink" title="第4关：简单的数字排序"></a>第4关：简单的数字排序</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">a, b, c = <span class="built_in">input</span>().split()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> a &gt; b:</span><br><span class="line">    a, b = b, a</span><br><span class="line"><span class="keyword">if</span> a &gt; c:</span><br><span class="line">    a, c = c, a</span><br><span class="line"><span class="keyword">if</span> b &gt; c:</span><br><span class="line">    b, c = c, b</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(a, b, c)</span><br></pre></td></tr></table></figure>
+
+<h3 id="第5关：求一元二次方程的解"><a href="#第5关：求一元二次方程的解" class="headerlink" title="第5关：求一元二次方程的解"></a>第5关：求一元二次方程的解</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">a, b, c = <span class="built_in">map</span>(<span class="built_in">int</span>, <span class="built_in">input</span>().split())</span><br><span class="line"></span><br><span class="line">discriminant = b**<span class="number">2</span> - <span class="number">4</span> * a * c</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> a == <span class="number">0</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;不是二次方程&quot;</span>)</span><br><span class="line"><span class="keyword">elif</span> discriminant &gt; <span class="number">0</span>:</span><br><span class="line">    root1 = (-b + discriminant**<span class="number">0.5</span>) / (<span class="number">2</span> * a)</span><br><span class="line">    root2 = (-b - discriminant**<span class="number">0.5</span>) / (<span class="number">2</span> * a)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;实根1：<span class="subst">&#123;root1:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;实根2：<span class="subst">&#123;root2:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="keyword">elif</span> discriminant == <span class="number">0</span>:</span><br><span class="line">    root = -b / (<span class="number">2</span> * a)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;有两个相等的实根：<span class="subst">&#123;root:<span class="number">.2</span>f&#125;</span>&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    real_part = -b / (<span class="number">2</span> * a)</span><br><span class="line">    imaginary_part = (-discriminant) ** <span class="number">0.5</span> / (<span class="number">2</span> * a)</span><br><span class="line">    root1 = <span class="string">f&quot;<span class="subst">&#123;real_part:<span class="number">.2</span>f&#125;</span>+<span class="subst">&#123;imaginary_part:<span class="number">.2</span>f&#125;</span>j&quot;</span></span><br><span class="line">    root2 = <span class="string">f&quot;<span class="subst">&#123;real_part:<span class="number">.2</span>f&#125;</span>-<span class="subst">&#123;imaginary_part:<span class="number">.2</span>f&#125;</span>j&quot;</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;虚根1：<span class="subst">&#123;root1&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;虚根2：<span class="subst">&#123;root2&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="第6关：输入一个年份和月份，打印出该月份有多少天。"><a href="#第6关：输入一个年份和月份，打印出该月份有多少天。" class="headerlink" title="第6关：输入一个年份和月份，打印出该月份有多少天。"></a>第6关：输入一个年份和月份，打印出该月份有多少天。</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">year, mouth = <span class="built_in">map</span>(<span class="built_in">int</span>, <span class="built_in">input</span>().split())</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> mouth == <span class="number">2</span>:</span><br><span class="line">    <span class="keyword">if</span> year % <span class="number">4</span> == <span class="number">0</span> <span class="keyword">and</span> year % <span class="number">100</span>!= <span class="number">0</span> <span class="keyword">or</span> year % <span class="number">400</span> == <span class="number">0</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="number">29</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="number">28</span>)</span><br><span class="line"><span class="keyword">elif</span> mouth <span class="keyword">in</span> [<span class="number">4</span>, <span class="number">6</span>, <span class="number">9</span>, <span class="number">11</span>]:</span><br><span class="line">    <span class="built_in">print</span>(<span class="number">30</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="number">31</span>)</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>LionLpeoridae</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>狮兔</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%A4%B4%E5%93%A5/"># 头哥</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2024/12/21/if%E8%AF%AD%E5%8F%A5%E2%80%94%E2%80%94%E7%BC%96%E8%BE%91%E2%80%9C%E9%97%A8%E7%A5%A8%E4%BB%B7%E6%A0%BC%E6%9F%A5%E8%AF%A2%E7%A8%8B%E5%BA%8F%E2%80%9D/">if语句——编辑“门票价格查询程序”</a>
+            
+            
+            <a class="next" rel="next" href="/2024/12/21/if%E8%AF%AD%E5%8F%A5%E2%80%94%E2%80%94Python%E5%85%A5%E9%97%A8%E4%B9%8B%E5%88%86%E6%94%AF%E8%AF%AD%E5%8F%A5/">if语句——Python入门之分支语句</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© LionLpeoridae | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

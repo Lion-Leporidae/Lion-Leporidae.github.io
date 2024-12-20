@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="LionLpeoridae">
+
+
+
+
+
+<title>Python--进程和线程 | LionLeporidae</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">LionLeporidae&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">LionLeporidae&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/category">分类</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Python--进程和线程</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">LionLpeoridae</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">December 21, 2024&nbsp;&nbsp;1:23:25</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%A4%B4%E6%AD%8C%E5%AE%9E%E8%AE%AD/">头歌实训</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="第1关：Python多进程-求素数个数"><a href="#第1关：Python多进程-求素数个数" class="headerlink" title="第1关：Python多进程-求素数个数"></a>第1关：Python多进程-求素数个数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> cpu_count</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line"></span><br><span class="line"><span class="comment"># 判断数字是否为质数</span></span><br><span class="line"><span class="comment">#********** Begin *********#</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">isPrime</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="keyword">if</span> n &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="built_in">int</span>(math.sqrt(n)) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> n % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"><span class="comment">#********** End *********#</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算给定区间含有多少个质数</span></span><br><span class="line"><span class="comment">#********** Begin *********#</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">howMany</span>(<span class="params">T</span>):</span><br><span class="line">    <span class="built_in">sum</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(T[<span class="number">0</span>], T[<span class="number">1</span>] + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> isPrime(i):</span><br><span class="line">            <span class="built_in">sum</span> += <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">sum</span></span><br><span class="line"><span class="comment">#********** End *********#</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 对整个数字空间N进行分段CPU_COUNT</span></span><br><span class="line"><span class="comment">#********** Begin *********#</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">separateNum</span>(<span class="params">N, CPU_COUNT</span>):</span><br><span class="line">    <span class="built_in">list</span> = [[i * (N // CPU_COUNT) + <span class="number">1</span>, (i + <span class="number">1</span>) * (N // CPU_COUNT)] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, CPU_COUNT)]</span><br><span class="line">    <span class="built_in">list</span>[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">list</span>[CPU_COUNT - <span class="number">1</span>][<span class="number">1</span>] &lt; N:</span><br><span class="line">        <span class="built_in">list</span>[CPU_COUNT - <span class="number">1</span>][<span class="number">1</span>] = N</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">list</span></span><br><span class="line"><span class="comment">#********** End *********#</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    N = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">    <span class="comment"># 多进程</span></span><br><span class="line">    CPU_COUNT = cpu_count()  <span class="comment">##CPU内核数 本机为8</span></span><br><span class="line">    pool = Pool(CPU_COUNT)</span><br><span class="line">    sepList = separateNum(N, CPU_COUNT)</span><br><span class="line">    result = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(CPU_COUNT):</span><br><span class="line">        result.append(pool.apply_async(howMany, (sepList[i], )))</span><br><span class="line">    pool.close()</span><br><span class="line">    pool.join()</span><br><span class="line">    ans = <span class="number">0</span></span><br><span class="line">    <span class="built_in">list</span> = [res.get() <span class="keyword">for</span> res <span class="keyword">in</span> result]</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">sum</span>(<span class="built_in">list</span>), end = <span class="string">&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="第2关：Python多线程-求合数个数"><a href="#第2关：Python多线程-求合数个数" class="headerlink" title="第2关：Python多线程-求合数个数"></a>第2关：Python多线程-求合数个数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line">ans = <span class="number">0</span></span><br><span class="line">lock = threading.Lock()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 判断数字是否为质数</span></span><br><span class="line"><span class="comment">#********** Begin *********#</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">isPrime</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="keyword">if</span> n &lt;= <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="built_in">int</span>(math.sqrt(n)) + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> n % i == <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line"><span class="comment">#********** End *********#</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#********** Begin *********#</span></span><br><span class="line"><span class="comment"># 计算给定区间含有多少个质数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">howMany</span>(<span class="params">T</span>):</span><br><span class="line">    <span class="built_in">sum</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(T[<span class="number">0</span>], T[<span class="number">1</span>] + <span class="number">1</span>):</span><br><span class="line">        <span class="keyword">if</span> isPrime(i):</span><br><span class="line">            <span class="built_in">sum</span> += <span class="number">1</span></span><br><span class="line">    lock.acquire()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">global</span> ans</span><br><span class="line">        ans += <span class="built_in">sum</span></span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        lock.release()</span><br><span class="line"><span class="comment">#********** End *********#</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#********** Begin *********#</span></span><br><span class="line"><span class="comment"># 对整个数字空间N进行分段CPU_COUNT</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">seprateNum</span>(<span class="params">N, CPU_COUNT</span>):</span><br><span class="line">    <span class="built_in">list</span> = [[i * (N // CPU_COUNT) + <span class="number">1</span>, (i + <span class="number">1</span>) * (N // CPU_COUNT)] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, CPU_COUNT)]</span><br><span class="line">    <span class="built_in">list</span>[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">list</span>[CPU_COUNT - <span class="number">1</span>][<span class="number">1</span>] &lt; N:</span><br><span class="line">        <span class="built_in">list</span>[CPU_COUNT - <span class="number">1</span>][<span class="number">1</span>] = N</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">list</span></span><br><span class="line"><span class="comment">#********** End *********#</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    N = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">    threadNum = <span class="number">32</span></span><br><span class="line">    t = []</span><br><span class="line">    sepList = seprateNum(N, threadNum)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, threadNum):</span><br><span class="line">        t.append(threading.Thread(target = howMany, args = (sepList[i], )))</span><br><span class="line">        t[i].start()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, threadNum):</span><br><span class="line">        t[i].join()</span><br><span class="line">    <span class="built_in">print</span>(N - <span class="number">1</span> - ans, end = <span class="string">&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="第3关：Python-ThreadLocal变量"><a href="#第3关：Python-ThreadLocal变量" class="headerlink" title="第3关：Python-ThreadLocal变量"></a>第3关：Python-ThreadLocal变量</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line">x = <span class="number">10</span></span><br><span class="line">data = threading.local()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">action</span>():</span><br><span class="line">    <span class="keyword">global</span> x</span><br><span class="line">    data.num = x</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1000000</span>):</span><br><span class="line">        data.num += <span class="number">1</span></span><br><span class="line">        data.num -= <span class="number">1</span></span><br><span class="line">    x = data.num</span><br><span class="line"></span><br><span class="line">x = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">thread = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    thread.append(threading.Thread(target = action))</span><br><span class="line">    thread[i].start()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    thread[i].join()</span><br><span class="line"><span class="built_in">print</span>(x, end = <span class="string">&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="第4关：Python-进程-VS-线程"><a href="#第4关：Python-进程-VS-线程" class="headerlink" title="第4关：Python-进程 VS 线程"></a>第4关：Python-进程 VS 线程</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> cpu_count</span><br><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line">N = <span class="built_in">int</span>(<span class="built_in">input</span>())</span><br><span class="line">a = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="built_in">int</span>, <span class="built_in">input</span>().split()))</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">howMany</span>(<span class="params">T</span>):</span><br><span class="line">    ans = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(T[<span class="number">0</span>] - <span class="number">1</span>, T[<span class="number">1</span>]):</span><br><span class="line">        ans = <span class="built_in">max</span>(ans, a[i])</span><br><span class="line">    <span class="keyword">return</span> ans</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对整个数字空间N进行分段CPU_COUNT</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">seprateNum</span>(<span class="params">N, CPU_COUNT</span>):</span><br><span class="line">    <span class="built_in">list</span> = [[i * (N // CPU_COUNT) + <span class="number">1</span>, (i + <span class="number">1</span>) * (N // CPU_COUNT)] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>, CPU_COUNT)]</span><br><span class="line">    <span class="built_in">list</span>[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">list</span>[CPU_COUNT - <span class="number">1</span>][<span class="number">1</span>] &lt; N:</span><br><span class="line">        <span class="built_in">list</span>[CPU_COUNT - <span class="number">1</span>][<span class="number">1</span>] = N</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">list</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line"><span class="comment"># 多进程</span></span><br><span class="line"><span class="comment">#********** Begin *********#</span></span><br><span class="line">    CPU_COUNT = cpu_count()  <span class="comment">##CPU内核数 本机为8</span></span><br><span class="line">    pool = Pool(CPU_COUNT)</span><br><span class="line">    sepList = seprateNum(N, CPU_COUNT)</span><br><span class="line">    result = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(CPU_COUNT):</span><br><span class="line">        result.append(pool.apply_async(howMany, (sepList[i], )))</span><br><span class="line">    pool.close()</span><br><span class="line">    pool.join()</span><br><span class="line">    ans = <span class="number">0</span></span><br><span class="line">    <span class="built_in">list</span> = [res.get() <span class="keyword">for</span> res <span class="keyword">in</span> result]</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">max</span>(<span class="built_in">list</span>), end = <span class="string">&#x27;&#x27;</span>)</span><br><span class="line"><span class="comment">#********** End *********#</span></span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>LionLpeoridae</span>
+                    </p>
+                
+                
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>狮兔</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%A4%B4%E5%93%A5/"># 头哥</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2024/12/21/Python%E4%B9%8B%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/">Python之多线程编程</a>
+            
+            
+            <a class="next" rel="next" href="/2024/12/21/Pandas%E5%88%9D%E4%BD%93%E9%AA%8C/">Pandas初体验</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© LionLpeoridae | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
